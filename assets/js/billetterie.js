@@ -1,15 +1,16 @@
 /**
  * Billetterie Coton Sport
  * Script de gestion de la billetterie en ligne
- * Intégration avec les données des matchs et système de réservation
+ * Version 2.0 - Mai 2024
  */
 
-// Configuration des prix des billets par catégorie
+// Configuration des prix des billets par catégorie (en FCFA)
 const TICKET_PRICES = {
     football: {
         standard: 3000,
         premium: 5000,
-        vip: 10000
+        vip: 10000,
+        tribune: 20000
     },
     basketball: {
         standard: 2000,
@@ -18,11 +19,41 @@ const TICKET_PRICES = {
     }
 };
 
-// Configuration des abonnements
+// Configuration des abonnements saisonniers
 const SUBSCRIPTION_PRICES = {
     standard: 50000,
     premium: 80000,
-    vip: 150000
+    vip: 150000,
+    tribune: 250000
+};
+
+// Avantages des abonnements
+const SUBSCRIPTION_BENEFITS = {
+    standard: [
+        'Accès à tous les matchs de championnat à domicile',
+        'Réduction de 10% sur la boutique officielle',
+        'Newsletter exclusive'
+    ],
+    premium: [
+        'Tous les avantages Standard',
+        'Accès aux matchs de coupe à domicile',
+        'Réduction de 15% sur la boutique officielle',
+        'Accès prioritaire aux billets pour les matchs à l\'extérieur'
+    ],
+    vip: [
+        'Tous les avantages Premium',
+        'Place numérotée en tribune d\'honneur',
+        'Parking VIP',
+        'Invitation aux rencontres avec les joueurs',
+        'Cadeau de bienvenue'
+    ],
+    tribune: [
+        'Tous les avantages VIP',
+        'Accès au salon VIP',
+        'Service de restauration inclus',
+        'Rencontre privilégiée avec les joueurs',
+        'Parking couvert sécurisé'
+    ]
 };
 
 // Variables globales
@@ -30,58 +61,171 @@ let selectedMatch = null;
 let selectedSeats = [];
 let selectedCategory = 'standard';
 let currentSport = 'football';
+let cart = [];
 
-// Données temporaires pour les places disponibles (à remplacer par une API)
-const availableSeats = {
-    standard: generateRandomSeats(100, 20),
-    premium: generateRandomSeats(50, 15),
-    vip: generateRandomSeats(20, 5)
+// Configuration des places du stade
+const STADIUM_SECTIONS = {
+    football: {
+        tribune: { rows: 10, seats: 20, available: 200, price: 20000 },
+        vip: { rows: 5, seats: 15, available: 75, price: 10000 },
+        premium: { rows: 10, seats: 30, available: 300, price: 5000 },
+        standard: { rows: 15, seats: 40, available: 600, price: 3000 }
+    },
+    basketball: {
+        vip: { rows: 3, seats: 10, available: 30, price: 8000 },
+        premium: { rows: 5, seats: 20, available: 100, price: 4000 },
+        standard: { rows: 10, seats: 30, available: 300, price: 2000 }
+    }
 };
+
+// Génération des places disponibles en temps réel
+function generateAvailableSeats() {
+    const sections = STADIUM_SECTIONS[currentSport];
+    const seats = {};
+    
+    Object.keys(sections).forEach(section => {
+        const sectionData = sections[section];
+        seats[section] = generateRandomSeats(
+            sectionData.available, 
+            Math.floor(Math.random() * (sectionData.available * 0.3)) // Jusqu'à 30% de places occupées
+        );
+    });
+    
+    return seats;
+}
+
+let availableSeats = generateAvailableSeats();
 
 /**
  * Initialisation de la page de billetterie
  */
 document.addEventListener('DOMContentLoaded', function() {
-    // Chargement des matchs à venir
-    loadUpcomingMatches();
+    // Afficher le loader
+    document.querySelector('.page-loader').classList.remove('hidden');
     
-    // Gestionnaires d'événements
-    setupEventListeners();
-    
-    // Initialisation des formulaires de paiement
-    initPaymentForms();
-    
-    // Animation au défilement
-    initScrollAnimations();
+    // Charger les matchs à venir
+    loadUpcomingMatches()
+        .then(() => {
+            // Initialiser les gestionnaires d'événements
+            setupEventListeners();
+            
+            // Initialiser les formulaires de paiement
+            initPaymentForms();
+            
+            // Initialiser les animations au défilement
+            initScrollAnimations();
+            
+            // Vérifier s'il y a un paramètre de match dans l'URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const matchId = urlParams.get('match');
+            
+            if (matchId) {
+                // Faire défiler jusqu'à la section des matchs
+                setTimeout(() => {
+                    const matchElement = document.getElementById(`match-${matchId}`);
+                    if (matchElement) {
+                        matchElement.scrollIntoView({ behavior: 'smooth' });
+                        matchElement.classList.add('highlight');
+                        
+                        // Retirer la mise en évidence après 3 secondes
+                        setTimeout(() => {
+                            matchElement.classList.remove('highlight');
+                        }, 3000);
+                    }
+                }, 500);
+            }
+            
+            // Cacher le loader une fois tout chargé
+            setTimeout(() => {
+                document.querySelector('.page-loader').classList.add('hidden');
+            }, 500);
+        })
+        .catch(error => {
+            console.error('Erreur lors du chargement des matchs :', error);
+            document.querySelector('.page-loader').classList.add('hidden');
+            
+            // Afficher un message d'erreur
+            Toastify({
+                text: "Erreur lors du chargement des matchs. Veuillez réessayer.",
+                duration: 5000,
+                gravity: "top",
+                position: 'right',
+                backgroundColor: "#dc3545",
+                stopOnFocus: true
+            }).showToast();
+            
+            // Afficher des données de démonstration en cas d'erreur
+            renderDemoMatches('football');
+            setupEventListeners();
+        });
 });
 
 /**
  * Charge les prochains matchs depuis l'API
+ * @returns {Promise} Une promesse résolue lorsque les matchs sont chargés
  */
-function loadUpcomingMatches() {
-    // Chargement des matchs de football
-    fetch('assets/data/football-calendar.json')
-        .then(response => response.json())
-        .then(data => {
-            renderMatchesTickets(data, 'football');
-        })
-        .catch(error => {
-            console.error('Erreur lors du chargement des matchs de football:', error);
-            // Afficher des matchs de démonstration en cas d'erreur
-            renderDemoMatches('football');
-        });
-    
-    // Chargement des matchs de basketball
-    fetch('assets/data/basketball-calendar.json')
-        .then(response => response.json())
-        .then(data => {
-            renderMatchesTickets(data, 'basketball');
-        })
-        .catch(error => {
-            console.error('Erreur lors du chargement des matchs de basketball:', error);
-            // Afficher des matchs de démonstration en cas d'erreur
-            renderDemoMatches('basketball');
-        });
+async function loadUpcomingMatches() {
+    try {
+        // Récupérer les matchs depuis le fichier JSON local
+        const response = await fetch('assets/data/football-calendar-new.json');
+        
+        if (!response.ok) {
+            throw new Error('Erreur lors du chargement des matchs');
+        }
+        
+        const data = await response.json();
+        
+        if (!data || !data.matches || !Array.isArray(data.matches)) {
+            throw new Error('Format de données invalide');
+        }
+        
+        // Filtrer les matchs à venir
+        const upcomingMatches = filterUpcomingMatches(data.matches);
+        
+        // Afficher les matchs dans l'interface
+        if (upcomingMatches.length > 0) {
+            renderMatchesTickets(upcomingMatches, 'football');
+        } else {
+            // Aucun match à venir, afficher un message
+            const container = document.getElementById('matchs-football');
+            if (container) {
+                container.innerHTML = `
+                    <div class="container">
+                        <div class="section-header">
+                            <h2>PROCHAINS MATCHS</h2>
+                            <p>Découvrez les prochaines rencontres à domicile</p>
+                        </div>
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Aucun match à venir pour le moment. Revenez plus tard pour découvrir les prochaines rencontres.
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        return upcomingMatches;
+    } catch (error) {
+        console.error('Erreur dans loadUpcomingMatches:', error);
+        
+        // Afficher un message d'erreur
+        const container = document.getElementById('matchs-football');
+        if (container) {
+            container.innerHTML = `
+                <div class="container">
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Une erreur est survenue lors du chargement des matchs. Veuillez réessayer plus tard.
+                        <div class="mt-2 small">${error.message}</div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Afficher des matchs de démonstration en cas d'erreur
+        renderDemoMatches('football');
+        throw error; // Propager l'erreur pour le catch principal
+    }
 }
 
 /**

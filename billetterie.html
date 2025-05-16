@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-bs-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,45 +10,92 @@
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/billetterie.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     
     <!-- Favicon -->
     <link rel="icon" href="assets/images/logo.png" type="image/x-icon">
+    
+    <!-- Préchargement des polices -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Balises Open Graph pour le partage sur les réseaux sociaux -->
+    <meta property="og:title" content="Billetterie Officielle - Coton Sport">
+    <meta property="og:description" content="Achetez vos billets pour les matchs de Coton FC et Elan Coton BC.">
+    <meta property="og:image" content="https://www.cotonsport.bj/assets/images/og-billetterie.jpg">
+    <meta property="og:url" content="https://www.cotonsport.bj/billetterie.html">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <!-- Thème de couleur pour les navigateurs mobiles -->
+    <meta name="theme-color" content="#0056b3">
+    
+    <!-- Manifest pour PWA -->
+    <link rel="manifest" href="manifest.json">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
+    <!-- Bandeau de chargement -->
+    <div class="page-loader">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Chargement...</span>
+        </div>
+        <p class="mt-2">Chargement de la billetterie...</p>
+    </div>
+    
+    <!-- Bouton retour en haut -->
+    <button id="backToTop" class="btn btn-primary rounded-circle" title="Retour en haut">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand" href="index.html">
-                <img src="assets/images/logo.png" alt="Coton Sport Logo" class="logo">
-                <span>COTON SPORT</span>
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="assets/images/logo.png" alt="Coton Sport Logo" class="logo me-2">
+                <span class="d-none d-md-inline">COTON SPORT</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Basculer la navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">CLUB</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Historique</a></li>
-                            <li><a class="dropdown-item" href="#">Organigramme</a></li>
-                            <li><a class="dropdown-item" href="#">Infrastructures</a></li>
-                            <li><a class="dropdown-item" href="#">Partenaires</a></li>
+                        <a class="nav-link dropdown-toggle" href="#" id="clubDropdown" role="button" 
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-landmark me-1"></i> CLUB
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="clubDropdown">
+                            <li><a class="dropdown-item" href="club/historique.html"><i class="fas fa-history me-2"></i>Historique</a></li>
+                            <li><a class="dropdown-item" href="club/organigramme.html"><i class="fas fa-sitemap me-2"></i>Organigramme</a></li>
+                            <li><a class="dropdown-item" href="club/infrastructures.html"><i class="fas fa-archway me-2"></i>Infrastructures</a></li>
+                            <li><a class="dropdown-item" href="club/partenaires.html"><i class="fas fa-handshake me-2"></i>Partenaires</a></li>
                         </ul>
                     </li>
+                    
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">COTON FC</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Effectif</a></li>
-                            <li><a class="dropdown-item" href="#">Staff technique</a></li>
-                            <li><a class="dropdown-item" href="#">Matchs</a></li>
-                            <li><a class="dropdown-item" href="#">Palmarès</a></li>
+                        <a class="nav-link dropdown-toggle active" href="#" id="cotonfcDropdown" role="button" 
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-futbol me-1"></i> COTON FC
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="cotonfcDropdown">
+                            <li><a class="dropdown-item" href="cotonfc/effectif.html"><i class="fas fa-users me-2"></i>Effectif</a></li>
+                            <li><a class="dropdown-item" href="cotonfc/staff.html"><i class="fas fa-user-tie me-2"></i>Staff technique</a></li>
+                            <li><a class="dropdown-item" href="cotonfc/calendrier.html"><i class="far fa-calendar-alt me-2"></i>Calendrier</a></li>
+                            <li><a class="dropdown-item" href="cotonfc/resultats.html"><i class="fas fa-table me-2"></i>Résultats</a></li>
+                            <li><a class="dropdown-item" href="cotonfc/palmares.html"><i class="fas fa-trophy me-2"></i>Palmarès</a></li>
                         </ul>
                     </li>
+                    
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">ELAN COTON BC</a>
-                        <ul class="dropdown-menu">
+                        <a class="nav-link dropdown-toggle" href="#" id="elancotonDropdown" role="button" 
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-basketball-ball me-1"></i> ELAN COTON BC
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="elancotonDropdown">
                             <li><a class="dropdown-item" href="#">Effectif</a></li>
                             <li><a class="dropdown-item" href="#">Staff technique</a></li>
                             <li><a class="dropdown-item" href="#">Matchs</a></li>
