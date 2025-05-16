@@ -68,6 +68,10 @@ function initCountdown() {
  */
 function initTabs() {
     const tabButtons = document.querySelectorAll('.tab');
+    const matchesTable = document.querySelector('.matches-table');
+    const matchesCalendar = document.querySelector('.matches-calendar');
+    
+    if (!matchesTable || !matchesCalendar) return;
     
     tabButtons.forEach(button => {
         button.addEventListener('click', function() {
@@ -78,21 +82,37 @@ function initTabs() {
             // Ajouter la classe active à l'onglet cliqué
             this.classList.add('active');
             
-            // Ici, vous pouvez ajouter la logique pour afficher le contenu correspondant
-            // Par exemple, charger les résultats ou le calendrier des matchs
+            // Afficher le contenu correspondant à l'onglet
             const tabType = this.textContent.trim();
             console.log(`Onglet ${tabType} activé`);
             
-            // Simuler un chargement de données
-            const matchesTable = document.querySelector('.matches-table');
-            if (matchesTable) {
-                matchesTable.style.opacity = '0.5';
+            if (tabType === 'RÉSULTATS') {
+                // Afficher les résultats
+                matchesTable.style.display = 'block';
+                matchesCalendar.style.display = 'none';
+                
+                // Animation de transition
+                matchesTable.style.opacity = '0';
                 setTimeout(() => {
                     matchesTable.style.opacity = '1';
-                }, 500);
+                }, 100);
+            } else if (tabType === 'CALENDRIER') {
+                // Afficher le calendrier
+                matchesTable.style.display = 'none';
+                matchesCalendar.style.display = 'block';
+                
+                // Animation de transition
+                matchesCalendar.style.opacity = '0';
+                setTimeout(() => {
+                    matchesCalendar.style.opacity = '1';
+                }, 100);
             }
         });
     });
+    
+    // Initialisation : afficher les résultats par défaut
+    matchesTable.style.display = 'block';
+    matchesCalendar.style.display = 'none';
 }
 
 /**
