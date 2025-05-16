@@ -1,7 +1,8 @@
 /* Style principal pour le site Coton FC */
 
 :root {
-    --primary-color: #0046ad; /* Bleu Coton FC */
+    --primary-color: #00a8e8; /* Bleu ciel Coton FC */
+    --primary-hover: #0095d9; /* Bleu ciel plus foncé au survol */
     --secondary-color: #ffffff; /* Blanc */
     --accent-color: #32cd32; /* Vert */
     --dark-color: #1a1a1a; /* Noir */
@@ -39,7 +40,7 @@ a {
 }
 
 a:hover {
-    color: #003b8e; /* Bleu plus foncé au survol */
+    color: var(--primary-hover);
 }
 
 .container {
@@ -62,23 +63,26 @@ a:hover {
 
 .btn-primary {
     background-color: var(--primary-color);
-    color: var(--secondary-color);
+    border-color: var(--primary-color);
+    color: white;
 }
 
 .btn-primary:hover {
-    background-color: #003b8e;
-    color: var(--secondary-color);
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+    color: white;
 }
 
 .btn-outline-primary {
     background-color: transparent;
-    color: var(--primary-color);
     border: 2px solid var(--primary-color);
+    color: var(--primary-color);
 }
 
 .btn-outline-primary:hover {
     background-color: var(--primary-color);
-    color: var(--secondary-color);
+    border-color: var(--primary-hover);
+    color: white;
 }
 
 .btn-outline-light {

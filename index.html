@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coton Football Club - Site Officiel</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <link rel="icon" href="assets/images/logo.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
@@ -103,46 +105,206 @@
         </div>
     </nav>
 
-    <!-- Bannière principale avec prochain match -->
-    <section class="hero-banner">
-        <div class="container">
-            <div class="match-info">
-                <div class="competition">Ligue Pro du Bénin - Journée 20</div>
-                <h1>COTON FC VS JS POBÈ</h1>
-                <div class="match-details">
-                    <span class="date"><i class="far fa-calendar-alt"></i> 27 Avril 2025</span>
-                    <span class="time"><i class="far fa-clock"></i> 16:00</span>
-                    <span class="venue">Stade Charles de Gaulle, Porto-Novo</span>
+    <!-- Bannière principale avec carrousel -->
+    <section class="hero-banner" data-aos="fade-up" data-aos-delay="100">
+        <!-- Carrousel d'images -->
+        <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="carousel-image-container">
+                        <img src="assets/images/hero/hero1.jpg" class="d-block w-100" alt="Coton FC en action">
+                    </div>
+                    <div class="carousel-caption">
+                        <div class="match-info">
+                            <div class="competition">Ligue Pro du Bénin - Journée 20</div>
+                            <h1>COTON FC VS JS POBÈ</h1>
+                            <div class="match-details">
+                                <span class="date"><i class="far fa-calendar-alt"></i> 27 Avril 2025</span>
+                                <span class="time"><i class="far fa-clock"></i> 16:00</span>
+                                <span class="venue">Stade Charles de Gaulle, Porto-Novo</span>
+                            </div>
+                            <div class="countdown">
+                                <div class="countdown-item">
+                                    <div class="number">27</div>
+                                    <div class="label">JOURS</div>
+                                </div>
+                                <div class="countdown-item">
+                                    <div class="number">0</div>
+                                    <div class="label">HEURES</div>
+                                </div>
+                                <div class="countdown-item">
+                                    <div class="number">38</div>
+                                    <div class="label">MINUTES</div>
+                                </div>
+                            </div>
+                            <div class="match-actions">
+                                <a href="#" class="btn btn-primary">ACHETER DES BILLETS</a>
+                                <a href="#" class="btn btn-outline-light">VOIR PLUS DE MATCHS</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="countdown">
-                    <div class="countdown-item">
-                        <div class="number">27</div>
-                        <div class="label">JOURS</div>
+                <div class="carousel-item">
+                    <div class="carousel-image-container">
+                        <img src="assets/images/hero/hero2.jpg" class="d-block w-100" alt="Coton FC célébration">
                     </div>
-                    <div class="countdown-item">
-                        <div class="number">0</div>
-                        <div class="label">HEURES</div>
-                    </div>
-                    <div class="countdown-item">
-                        <div class="number">38</div>
-                        <div class="label">MINUTES</div>
+                    <div class="carousel-caption">
+                        <div class="match-info">
+                            <div class="competition">Coupe du Bénin - 1/4 de finale</div>
+                            <h1>COTON FC VS BOUKOKO FC</h1>
+                            <div class="match-details">
+                                <span class="date"><i class="far fa-calendar-alt"></i> 15 Mai 2025</span>
+                                <span class="time"><i class="far fa-clock"></i> 18:30</span>
+                                <span class="venue">Stade de l'Amitié, Cotonou</span>
+                            </div>
+                            <div class="countdown">
+                                <div class="countdown-item">
+                                    <div class="number">35</div>
+                                    <div class="label">JOURS</div>
+                                </div>
+                                <div class="countdown-item">
+                                    <div class="number">2</div>
+                                    <div class="label">HEURES</div>
+                                </div>
+                                <div class="countdown-item">
+                                    <div class="number">45</div>
+                                    <div class="label">MINUTES</div>
+                                </div>
+                            </div>
+                            <div class="match-actions">
+                                <a href="#" class="btn btn-primary">ACHETER DES BILLETS</a>
+                                <a href="#" class="btn btn-outline-light">VOIR PLUS DE MATCHS</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="match-actions">
-                    <a href="#" class="btn btn-primary">ACHETER DES BILLETS</a>
-                    <a href="#" class="btn btn-outline-light">VOIR PLUS DE MATCHS</a>
+                <div class="carousel-item">
+                    <div class="carousel-image-container">
+                        <img src="assets/images/hero/hero3.jpg" class="d-block w-100" alt="Coton FC équipe">
+                    </div>
+                    <div class="carousel-caption">
+                        <div class="match-info">
+                            <div class="competition">Ligue des Champions CAF - Phase de groupes</div>
+                            <h1>COTON FC VS AL AHLY</h1>
+                            <div class="match-details">
+                                <span class="date"><i class="far fa-calendar-alt"></i> 2 Juin 2025</span>
+                                <span class="time"><i class="far fa-clock"></i> 20:00</span>
+                                <span class="venue">Stade de l'Amitié, Cotonou</span>
+                            </div>
+                            <div class="countdown">
+                                <div class="countdown-item">
+                                    <div class="number">53</div>
+                                    <div class="label">JOURS</div>
+                                </div>
+                                <div class="countdown-item">
+                                    <div class="number">0</div>
+                                    <div class="label">HEURES</div>
+                                </div>
+                                <div class="countdown-item">
+                                    <div class="number">0</div>
+                                    <div class="label">MINUTES</div>
+                                </div>
+                            </div>
+                            <div class="match-actions">
+                                <a href="#" class="btn btn-primary">ACHETER DES BILLETS</a>
+                                <a href="#" class="btn btn-outline-light">VOIR PLUS DE MATCHS</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Slide 4 -->
+                <div class="carousel-item">
+                    <div class="carousel-image-container">
+                        <img src="assets/images/hero/hero4.jpg" class="d-block w-100" alt="Coton FC en match">
+                    </div>
+                    <div class="carousel-caption">
+                        <div class="match-info">
+                            <div class="competition">Ligue Pro du Bénin - Journée 18</div>
+                            <h1>COTON FC VS BOUKOKO FC</h1>
+                            <div class="match-details">
+                                <span class="date"><i class="far fa-calendar-alt"></i> 10 Mai 2025</span>
+                                <span class="time"><i class="far fa-clock"></i> 16:00</span>
+                                <span class="venue">Stade Charles de Gaulle, Porto-Novo</span>
+                            </div>
+                            <div class="countdown">
+                                <div class="countdown-item">
+                                    <div class="number">20</div>
+                                    <div class="label">JOURS</div>
+                                </div>
+                                <div class="countdown-item">
+                                    <div class="number">0</div>
+                                    <div class="label">HEURES</div>
+                                </div>
+                                <div class="countdown-item">
+                                    <div class="number">0</div>
+                                    <div class="label">MINUTES</div>
+                                </div>
+                            </div>
+                            <div class="match-actions">
+                                <a href="#" class="btn btn-primary">ACHETER DES BILLETS</a>
+                                <a href="#" class="btn btn-outline-light">VOIR PLUS DE MATCHS</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Slide 5 -->
+                <div class="carousel-item">
+                    <div class="carousel-image-container">
+                        <img src="assets/images/hero/hero5.jpg" class="d-block w-100" alt="Coton FC victoire">
+                    </div>
+                    <div class="carousel-caption">
+                        <div class="match-info">
+                            <div class="competition">Coupe du Bénin - Finale</div>
+                            <h1>COTON FC VS ASPAC FC</h1>
+                            <div class="match-details">
+                                <span class="date"><i class="far fa-calendar-alt"></i> 25 Mai 2025</span>
+                                <span class="time"><i class="far fa-clock"></i> 18:30</span>
+                                <span class="venue">Stade de l'Amitié, Cotonou</span>
+                            </div>
+                            <div class="countdown">
+                                <div class="countdown-item">
+                                    <div class="number">35</div>
+                                    <div class="label">JOURS</div>
+                                </div>
+                                <div class="countdown-item">
+                                    <div class="number">2</div>
+                                    <div class="label">HEURES</div>
+                                </div>
+                                <div class="countdown-item">
+                                    <div class="number">30</div>
+                                    <div class="label">MINUTES</div>
+                                </div>
+                            </div>
+                            <div class="match-actions">
+                                <a href="#" class="btn btn-primary">ACHETER DES BILLETS</a>
+                                <a href="#" class="btn btn-outline-light">VOIR PLUS DE MATCHS</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="banner-indicators">
-            <span class="active"></span>
-            <span></span>
-            <span></span>
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Précédent</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Suivant</span>
+            </button>
         </div>
     </section>
 
     <!-- Section Matchs Football -->
-    <section class="matches-section" id="football-matches">
+    <section class="matches-section" id="football-matches" data-aos="fade-in">
         <div class="container">
             <div class="section-header">
                 <h2>Matchs Coton FC</h2>
@@ -301,7 +463,7 @@
     </section>
 
     <!-- Section Matchs Basketball -->
-    <section class="matches-section" id="basketball-matches">
+    <section class="matches-section" id="basketball-matches" data-aos="fade-in">
         <div class="container">
             <div class="section-header">
                 <h2>Matchs Elan Coton BC</h2>
@@ -460,7 +622,7 @@
     </section>
 
     <!-- Section Équipe -->
-    <section class="team-section">
+    <section class="team-section" data-aos="fade-in">
         <div class="container">
             <div class="section-header">
                 <h2>Notre Équipe</h2>
@@ -485,7 +647,7 @@
                         <a href="#" class="profile-link">Voir profil</a>
                     </div>
                 </div>
-                <div class="player-card">
+                <div class="player-card" data-aos="fade-up" data-aos-delay="150">
                     <div class="player-number">4</div>
                     <img src="assets/images/players/player2.jpg" alt="Ibrahim Koné" class="player-img">
                     <div class="player-info">
@@ -495,7 +657,7 @@
                         <a href="#" class="profile-link">Voir profil</a>
                     </div>
                 </div>
-                <div class="player-card">
+                <div class="player-card" data-aos="fade-up" data-aos-delay="200">
                     <div class="player-number">3</div>
                     <img src="assets/images/players/player3.jpg" alt="Moussa Diaby" class="player-img">
                     <div class="player-info">
@@ -505,7 +667,7 @@
                         <a href="#" class="profile-link">Voir profil</a>
                     </div>
                 </div>
-                <div class="player-card">
+                <div class="player-card" data-aos="fade-up" data-aos-delay="250">
                     <div class="player-number">8</div>
                     <img src="assets/images/players/player4.jpg" alt="Issa Kabore" class="player-img">
                     <div class="player-info">
@@ -520,7 +682,7 @@
     </section>
 
     <!-- Section Actualités -->
-    <section class="news-section">
+    <section class="news-section" data-aos="fade-up">
         <div class="container">
             <div class="section-header">
                 <h2>Dernières Actualités</h2>
@@ -528,7 +690,7 @@
             </div>
             <p class="section-intro">Restez informé des dernières nouvelles du club</p>
             <div class="news-grid">
-                <div class="news-card">
+                <div class="news-card" data-aos="fade-up" data-aos-delay="100">
                     <img src="assets/images/news/news1.jpg" alt="Coton Sport remporte la Coupe Nationale 2024" class="news-img">
                     <div class="news-category">
                         <span class="badge">Matchs</span>
@@ -538,7 +700,7 @@
                     <p>Une victoire éclatante qui confirme la domination de l'équipe dans le championnat béninois.</p>
                     <a href="#" class="read-more">Lire la suite</a>
                 </div>
-                <div class="news-card">
+                <div class="news-card" data-aos="fade-up" data-aos-delay="150">
                     <img src="assets/images/news/news2.jpg" alt="Ibrahim Kante signe un contrat de 3 ans" class="news-img">
                     <div class="news-category">
                         <span class="badge">Transferts</span>
@@ -548,7 +710,7 @@
                     <p>Le jeune attaquant promet d'apporter une nouvelle dynamique à l'équipe pour la saison à venir.</p>
                     <a href="#" class="read-more">Lire la suite</a>
                 </div>
-                <div class="news-card">
+                <div class="news-card" data-aos="fade-up" data-aos-delay="200">
                     <img src="assets/images/news/news3.jpg" alt="Préparation intensive pour la CAF Champions League" class="news-img">
                     <div class="news-category">
                         <span class="badge">Entraînement</span>
@@ -558,7 +720,7 @@
                     <p>L'équipe intensifie ses entraînements en vue des prochains défis continentaux.</p>
                     <a href="#" class="read-more">Lire la suite</a>
                 </div>
-                <div class="news-card">
+                <div class="news-card" data-aos="fade-up" data-aos-delay="250">
                     <img src="assets/images/news/news4.jpg" alt="Le nouveau maillot dévoilé pour la saison 2025-2026" class="news-img">
                     <div class="news-category">
                         <span class="badge">Club</span>
@@ -573,7 +735,7 @@
     </section>
 
     <!-- Section Stade -->
-    <section class="stadium-section">
+    <section class="stadium-section" data-aos="fade-in">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
@@ -615,7 +777,7 @@
     </section>
 
     <!-- Section Partenaires -->
-    <section class="partners-section">
+    <section class="partners-section" data-aos="fade-up">
         <div class="container">
             <h2>Nos Partenaires</h2>
             <h3>PARTENAIRES PLATINUM</h3>
@@ -624,67 +786,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Pied de page -->
-    <footer class="site-footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-6">
-                    <div class="footer-logo">
-                        <img src="assets/images/logo.png" alt="Coton FC Logo">
-                        <h3>COTON SPORT FC</h3>
-                    </div>
-                    <p>Club de football béninois fondé en 2021, triple champion national et participant régulier aux compétitions africaines.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4>Liens rapides</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">Accueil</a></li>
-                        <li><a href="#">Actualités</a></li>
-                        <li><a href="#">Matchs</a></li>
-                        <li><a href="#">Équipe</a></li>
-                        <li><a href="#">Billetterie</a></li>
-                        <li><a href="#">Boutique</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4>Informations</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">À propos du club</a></li>
-                        <li><a href="#">Histoire</a></li>
-                        <li><a href="#">Stade</a></li>
-                        <li><a href="#">Partenaires</a></li>
-                        <li><a href="#">Mentions légales</a></li>
-                        <li><a href="#">Politique de confidentialité</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4>Contact</h4>
-                    <ul class="contact-info">
-                        <li><i class="fas fa-map-marker-alt"></i> Siège social, Cotonou, Bénin</li>
-                        <li><i class="fas fa-phone"></i> +229 XX XX XX XX</li>
-                        <li><i class="fas fa-envelope"></i> contact@cotonsport.bj</li>
-                    </ul>
-                    <div class="newsletter">
-                        <h4>Newsletter</h4>
-                        <form>
-                            <input type="email" placeholder="Votre email">
-                            <button type="submit"><i class="fas fa-paper-plane"></i></button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Coton Football Club. Tous droits réservés.</p>
-            </div>
-        </div>
-    </footer>
 
     <!-- Section Staff Technique -->    
     <section class="staff-section">
@@ -875,7 +976,18 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.27/dist/lenis.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script src="assets/js/api.js"></script>
+    <script src="assets/js/animations.js"></script>
     <script src="assets/js/main.js"></script>
+    <script>
+        // Initialiser AOS (Animate On Scroll)
+        AOS.init({
+            duration: 1000,
+            once: true,
+            easing: 'ease-in-out',
+            mirror: false
+        });
+    </script>
 </body>
 </html>
