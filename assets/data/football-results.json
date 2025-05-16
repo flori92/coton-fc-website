@@ -1,0 +1,43 @@
+{
+  "matches": [
+    {
+      "id": 1,
+      "date": "2024-09-29T16:00:00",
+      "competition": "Ligue Pro J1",
+      "homeTeam": "Coton FC",
+      "awayTeam": "JAK",
+      "homeScore": 3,
+      "awayScore": 0,
+      "venue": "Stade Charles de Gaulle, Porto-Novo",
+      "detailsLink": "#match-details-1"
+    },
+    {
+      "id": 2,
+      "date": "2022-09-13T18:00:00",
+      "competition": "CAF Champions League",
+      "homeTeam": "ASEC Mimosas",
+      "awayTeam": "Coton FC",
+      "homeScore": 2,
+      "awayScore": 1,
+      "venue": "Stade Félix Houphouët-Boigny, Abidjan",
+      "detailsLink": "#match-details-2"
+    },
+    {
+      "id": 3,
+      "date": "2022-08-24T16:00:00",
+      "competition": "Match Amical",
+      "homeTeam": "Coton FC",
+      "awayTeam": "ASCK Togo",
+      "homeScore": 4,
+      "awayScore": 1,
+      "venue": "Stade Mathieu Kérékou, Cotonou",
+      "detailsLink": "#match-details-3"
+    }
+  ],
+  "standings": {
+    "competition": "LIGUE PRO 2024-2025 (POULE B)",
+    "position": 2,
+    "points": 3,
+    "stats": "1V 0N 0D (+3)"
+  }
+}
