@@ -439,71 +439,28 @@
                             </div>
                         </div>
                         
-                        <h4>Méthode de paiement</h4>
-                        <div class="payment-methods">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="paymentMethod" id="paymentCard" checked>
-                                <label class="form-check-label" for="paymentCard">
-                                    Carte bancaire <i class="far fa-credit-card"></i>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="paymentMethod" id="paymentMobile">
-                                <label class="form-check-label" for="paymentMobile">
-                                    Mobile Money <i class="fas fa-mobile-alt"></i>
-                                </label>
-                            </div>
+                        <h4>Paiement sécurisé avec KKiaPay</h4>
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Vous serez redirigé vers la plateforme de paiement sécurisée KKiaPay pour finaliser votre achat.
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                            <label class="form-check-label" for="termsCheck">
+                                J'accepte les <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">conditions générales de vente</a>
+                            </label>
                         </div>
                         
-                        <div id="cardPaymentForm">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="cardNumber">Numéro de carte</label>
-                                        <input type="text" class="form-control" id="cardNumber" placeholder="XXXX XXXX XXXX XXXX">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="cardExpiry">Date d'expiration</label>
-                                        <input type="text" class="form-control" id="cardExpiry" placeholder="MM/AA">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="cardCvc">CVC</label>
-                                        <input type="text" class="form-control" id="cardCvc" placeholder="123">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div id="mobilePaymentForm" style="display: none;">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="mobileOperator">Opérateur</label>
-                                        <select class="form-control" id="mobileOperator">
-                                            <option value="mtn">MTN Mobile Money</option>
-                                            <option value="moov">Moov Money</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="mobileNumber">Numéro de téléphone</label>
-                                        <input type="tel" class="form-control" id="mobileNumber" placeholder="+229 XX XX XX XX">
-                                    </div>
-                                </div>
-                            </div>
+                        <!-- Intégration de KKiaPay -->
+                        <div id="kkiabox-checkout-btn" class="d-none"></div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <button type="button" class="btn btn-primary" onclick="completePayment()">Payer maintenant</button>
+                    <button type="button" class="btn btn-primary" id="payWithKKiaPay">
+                        <i class="fas fa-lock me-2"></i>Payer avec KKiaPay
+                    </button>
                 </div>
             </div>
         </div>
@@ -529,6 +486,37 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Conditions Générales -->
+    <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="termsModalLabel">Conditions Générales de Vente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>1. Acceptation des conditions</h6>
+                    <p>En effectuant un achat sur notre site, vous acceptez sans réserve les présentes conditions générales de vente.</p>
+                    
+                    <h6>2. Prix et Paiement</h6>
+                    <p>Les prix sont indiqués en FCFA. Le paiement s'effectue via la plateforme sécurisée KKiaPay.</p>
+                    
+                    <h6>3. Validation de la commande</h6>
+                    <p>Votre commande ne sera validée qu'après confirmation du paiement par KKiaPay.</p>
+                    
+                    <h6>4. Remboursement</h6>
+                    <p>En cas d'annulation d'un match, les billets seront remboursés selon les conditions générales de vente.</p>
+                    
+                    <h6>5. Données personnelles</h6>
+                    <p>Vos données personnelles sont traitées conformément à notre politique de confidentialité.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">J'ai compris</button>
                 </div>
             </div>
         </div>

@@ -4,6 +4,20 @@
  * Version 2.0 - Mai 2024
  */
 
+// Initialisation au chargement du document
+document.addEventListener('DOMContentLoaded', function() {
+    loadUpcomingMatches();
+    initializeKKiaPay();
+    
+    // Initialisation du sélecteur de date
+    if (document.getElementById('matchDate')) {
+        flatpickr("#matchDate", {
+            dateFormat: "Y-m-d",
+            minDate: "today"
+        });
+    }
+});
+
 // Configuration des prix des billets par catégorie (en FCFA)
 const TICKET_PRICES = {
     football: {
@@ -108,9 +122,6 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(() => {
             // Initialiser les gestionnaires d'événements
             setupEventListeners();
-            
-            // Initialiser les formulaires de paiement
-            initPaymentForms();
             
             // Initialiser les animations au défilement
             initScrollAnimations();
@@ -899,33 +910,132 @@ function proceedToCheckout() {
     checkoutModal.show();
 }
 
+// Configuration de KKiaPay
+const KKIA_API_KEY = '6827b5abd71b53d7f0959ab0';
+const KKIA_BASE_URL = 'https://api.kkiapay.me';
+
 /**
- * Finalise le paiement et affiche la confirmation
+ * Initialise KKiaPay avec la configuration de base
  */
-function completePayment() {
+function initializeKKiaPay() {
+    // Charger le script KKiaPay de manière asynchrone
+    const script = document.createElement('script');
+    script.src = 'https://cdn.kkiapay.me/k.js';
+    script.setAttribute('data-key', KKIA_API_KEY);
+    script.setAttribute('data-theme', 'green');
+    script.setAttribute('data-position', 'center');
+    script.setAttribute('data-callback', 'handleKKiaPayCallback');
+    document.head.appendChild(script);
+    
+    // Ajouter l'écouteur d'événement pour le bouton de paiement
+    document.getElementById('payWithKKiaPay').addEventListener('click', processKKiaPayment);
+}
+
+/**
+ * Traite le paiement via KKiaPay
+ */
+function processKKiaPayment() {
     // Validation du formulaire
     const form = document.getElementById('checkoutForm');
+    const termsCheck = document.getElementById('termsCheck');
     
-    if (!form.checkValidity()) {
+    if (!form.checkValidity() || !termsCheck.checked) {
         form.reportValidity();
+        if (!termsCheck.checked) {
+            alert('Veuillez accepter les conditions générales de vente.');
+        }
         return;
     }
     
-    // Simuler un traitement de paiement
-    const checkoutModal = bootstrap.Modal.getInstance(document.getElementById('checkoutModal'));
-    checkoutModal.hide();
+    // Calculer le montant total
+    let totalAmount = 0;
+    selectedSeats.forEach(seat => {
+        totalAmount += seat.price;
+    });
     
-    // Générer une référence de commande
+    // Récupérer les informations client
+    const customer = {
+        name: `${document.getElementById('firstName').value} ${document.getElementById('lastName').value}`,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value
+    };
+    
+    // Générer une référence de commande unique
     const orderReference = generateOrderReference();
-    document.getElementById('orderReference').textContent = orderReference;
     
-    // Afficher la modal de confirmation
-    const confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
-    confirmationModal.show();
+    // Préparer les détails de la commande
+    const orderDetails = {
+        amount: totalAmount,
+        reference: orderReference,
+        customer: customer,
+        match: selectedMatch,
+        seats: selectedSeats,
+        date: new Date().toISOString()
+    };
     
-    // Réinitialiser les sélections
-    selectedSeats = [];
-    selectedMatch = null;
+    // Afficher le bouton de paiement KKiaPay
+    const kkiaBtn = document.getElementById('kkiabox-checkout-btn');
+    kkiaBtn.setAttribute('data-amount', totalAmount.toString());
+    kkiaBtn.setAttribute('data-reference', orderReference);
+    kkiaBtn.setAttribute('data-name', 'Billets Coton FC');
+    kkiaBtn.setAttribute('data-phone', customer.phone);
+    kkiaBtn.setAttribute('data-email', customer.email);
+    
+    // Simuler un clic sur le bouton KKiaPay
+    kkiaBtn.click();
+}
+
+/**
+ * Callback appelé après un paiement KKiaPay
+ * @param {Object} response - Réponse de l'API KKiaPay
+ */
+window.handleKKiaPayCallback = function(response) {
+    if (response.status === 'SUCCESS') {
+        // Paiement réussi
+        const checkoutModal = bootstrap.Modal.getInstance(document.getElementById('checkoutModal'));
+        if (checkoutModal) checkoutModal.hide();
+        
+        // Afficher la confirmation
+        document.getElementById('orderReference').textContent = response.transaction_id || generateOrderReference();
+        const confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+        confirmationModal.show();
+        
+        // Réinitialiser les sélections
+        selectedSeats = [];
+        selectedMatch = null;
+        
+        // Réinitialiser le formulaire
+        document.getElementById('checkoutForm').reset();
+        
+        // Envoyer un email de confirmation (à implémenter côté serveur)
+        sendConfirmationEmail(response);
+    } else {
+        // Gérer les erreurs de paiement
+        alert('Une erreur est survenue lors du paiement. Veuillez réessayer.');
+        console.error('Erreur de paiement KKiaPay:', response);
+    }
+};
+
+/**
+ * Envoie un email de confirmation (à implémenter côté serveur)
+ * @param {Object} paymentData - Données de paiement
+ */
+function sendConfirmationEmail(paymentData) {
+    // À implémenter côté serveur
+    console.log('Envoi de la confirmation par email:', paymentData);
+    // Exemple d'implémentation avec fetch()
+    /*
+    fetch('/api/send-confirmation-email', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(paymentData)
+    })
+    .then(response => response.json())
+    .then(data => console.log('Email envoyé:', data))
+    .catch(error => console.error('Erreur:', error));
+    */
 }
 
 /**
@@ -965,21 +1075,7 @@ function selectSubscription(type) {
     checkoutModal.show();
 }
 
-/**
- * Initialise les formulaires de paiement
- */
-function initPaymentForms() {
-    // Basculer entre les méthodes de paiement
-    document.getElementById('paymentCard').addEventListener('change', function() {
-        document.getElementById('cardPaymentForm').style.display = 'block';
-        document.getElementById('mobilePaymentForm').style.display = 'none';
-    });
-    
-    document.getElementById('paymentMobile').addEventListener('change', function() {
-        document.getElementById('cardPaymentForm').style.display = 'none';
-        document.getElementById('mobilePaymentForm').style.display = 'block';
-    });
-}
+
 
 /**
  * Configure les gestionnaires d'événements

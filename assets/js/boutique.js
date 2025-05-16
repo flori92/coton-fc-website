@@ -769,7 +769,7 @@ function addToWishlist(productId) {
 }
 
 /**
- * Procède au paiement
+ * Procède au paiement avec KKiaPay
  */
 function proceedToCheckout() {
     // Récupérer le panier actuel
@@ -783,12 +783,110 @@ function proceedToCheckout() {
     // Calculer le total
     const total = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
     
-    // Afficher une confirmation
-    alert(`Commande en cours de traitement...\nTotal: ${formatPrice(total)}\n\nDans une version réelle, vous seriez redirigé vers une page de paiement sécurisée.`);
+    // Récupérer les informations client (à remplacer par un formulaire dans une version réelle)
+    const customerName = prompt('Entrez votre nom complet :');
+    const customerPhone = prompt('Entrez votre numéro de téléphone :');
+    const customerEmail = prompt('Entrez votre adresse email :');
     
-    // Vider le panier (simulation d'une commande réussie)
-    localStorage.removeItem('cotonSportCart');
+    if (!customerName || !customerPhone || !customerEmail) {
+        alert('Veuillez remplir tous les champs pour procéder au paiement.');
+        return;
+    }
     
-    // Mettre à jour l'affichage du panier
-    updateCartDisplay([]);
+    // Préparer les détails de la commande
+    const orderReference = generateOrderReference();
+    const orderDetails = {
+        amount: total,
+        reference: orderReference,
+        customer: {
+            name: customerName,
+            phone: customerPhone,
+            email: customerEmail
+        },
+        items: cart,
+        date: new Date().toISOString()
+    };
+    
+    // Afficher le bouton de paiement KKiaPay
+    const kkiaBtn = document.createElement('button');
+    kkiaBtn.id = 'kkiabox-checkout-btn';
+    kkiaBtn.style.display = 'none';
+    kkiaBtn.setAttribute('data-amount', total.toString());
+    kkiaBtn.setAttribute('data-reference', orderReference);
+    kkiaBtn.setAttribute('data-name', 'Boutique Coton Sport');
+    kkiaBtn.setAttribute('data-phone', customerPhone);
+    kkiaBtn.setAttribute('data-email', customerEmail);
+    kkiaBtn.onclick = function(e) {
+        e.preventDefault();
+        // La fonction de callback sera appelée par KKiaPay
+    };
+    
+    // Ajouter le bouton à la page et déclencher le clic
+    document.body.appendChild(kkiaBtn);
+    kkiaBtn.click();
+    
+    // Configurer le callback KKiaPay
+    window.handleKkiaPayCallback = function(response) {
+        if (response.status === 'SUCCESS') {
+            // Paiement réussi
+            alert('Paiement réussi ! Votre commande a été enregistrée. Référence: ' + response.transaction_id);
+            
+            // Vider le panier
+            localStorage.removeItem('cotonSportCart');
+            updateCartDisplay([]);
+            
+            // Fermer le panier
+            const cartOffcanvas = bootstrap.Offcanvas.getInstance(document.getElementById('cartOffcanvas'));
+            if (cartOffcanvas) cartOffcanvas.hide();
+            
+            // Envoyer la confirmation de commande (à implémenter côté serveur)
+            sendOrderConfirmation(orderDetails, response);
+        } else {
+            // Échec du paiement
+            alert('Une erreur est survenue lors du paiement. Veuillez réessayer.');
+            console.error('Erreur de paiement KKiaPay:', response);
+        }
+        
+        // Nettoyer
+        document.body.removeChild(kkiaBtn);
+    };
+}
+
+/**
+ * Génère une référence de commande unique
+ * @returns {string} - Référence de commande
+ */
+function generateOrderReference() {
+    const date = new Date();
+    const timestamp = date.getTime().toString().slice(-6);
+    const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+    return `CS-BOUTIQUE-${timestamp}${random}`;
+}
+
+/**
+ * Envoie une confirmation de commande (à implémenter côté serveur)
+ * @param {Object} order - Détails de la commande
+ * @param {Object} paymentResponse - Réponse de KKiaPay
+ */
+function sendOrderConfirmation(order, paymentResponse) {
+    // À implémenter côté serveur
+    console.log('Commande validée:', order);
+    console.log('Réponse de paiement:', paymentResponse);
+    
+    // Exemple d'implémentation avec fetch()
+    /*
+    fetch('/api/process-order', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            order: order,
+            payment: paymentResponse
+        })
+    })
+    .then(response => response.json())
+    .then(data => console.log('Commande traitée:', data))
+    .catch(error => console.error('Erreur:', error));
+    */
 }
