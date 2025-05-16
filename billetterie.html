@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billetterie Officielle - Coton Sport</title>
+    <meta name="description" content="Billetterie officielle de Coton Sport. Achetez vos billets pour les matchs de Coton FC et Elan Coton BC.">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/billetterie.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="assets/images/logo.png" type="image/x-icon">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="assets/images/logo.png" alt="Coton Sport Logo" class="logo">
+                <span>COTON SPORT</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">CLUB</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Historique</a></li>
+                            <li><a class="dropdown-item" href="#">Organigramme</a></li>
+                            <li><a class="dropdown-item" href="#">Infrastructures</a></li>
+                            <li><a class="dropdown-item" href="#">Partenaires</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">COTON FC</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Effectif</a></li>
+                            <li><a class="dropdown-item" href="#">Staff technique</a></li>
+                            <li><a class="dropdown-item" href="#">Matchs</a></li>
+                            <li><a class="dropdown-item" href="#">Palmarès</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">ELAN COTON BC</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Effectif</a></li>
+                            <li><a class="dropdown-item" href="#">Staff technique</a></li>
+                            <li><a class="dropdown-item" href="#">Matchs</a></li>
+                            <li><a class="dropdown-item" href="#">Palmarès</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">ACTUALITÉS</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Toutes les actualités</a></li>
+                            <li><a class="dropdown-item" href="#">Football</a></li>
+                            <li><a class="dropdown-item" href="#">Basketball</a></li>
+                            <li><a class="dropdown-item" href="#">Club</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">MÉDIA</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Photos</a></li>
+                            <li><a class="dropdown-item" href="#">Vidéos</a></li>
+                            <li><a class="dropdown-item" href="#">Accréditation Presse</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="boutique.html">BOUTIQUE</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="billetterie.html">BILLETTERIE</a>
+                    </li>
+                </ul>
+                <div class="nav-actions">
+                    <a href="#" class="search-btn"><i class="fas fa-search"></i></a>
+                    <a href="#" class="user-btn"><i class="fas fa-user"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Bannière Billetterie -->
+    <section class="ticket-banner">
+        <div class="container">
+            <div class="ticket-banner-content">
+                <h1>BILLETTERIE OFFICIELLE</h1>
+                <p>Réservez vos places pour les matchs de Coton Sport</p>
+                <div class="ticket-actions">
+                    <a href="#matchs-football" class="btn btn-primary">MATCHS FOOTBALL</a>
+                    <a href="#matchs-basketball" class="btn btn-outline-light">MATCHS BASKETBALL</a>
+                    <a href="#abonnements" class="btn btn-outline-light">ABONNEMENTS</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prochains Matchs Football -->
+    <section id="matchs-football" class="ticket-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>MATCHS COTON FC</h2>
+                <p>Réservez vos billets pour les prochains matchs de football</p>
+            </div>
+            
+            <div class="ticket-matches" id="footballMatchesTickets">
+                <!-- Les matchs seront chargés dynamiquement ici -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Prochains Matchs Basketball -->
+    <section id="matchs-basketball" class="ticket-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>MATCHS ELAN COTON BC</h2>
+                <p>Réservez vos billets pour les prochains matchs de basketball</p>
+            </div>
+            
+            <div class="ticket-matches" id="basketballMatchesTickets">
+                <!-- Les matchs seront chargés dynamiquement ici -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Abonnements -->
+    <section id="abonnements" class="ticket-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>ABONNEMENTS SAISON 2024-2025</h2>
+                <p>Profitez de tous les matchs à domicile avec nos formules d'abonnement</p>
+            </div>
+            
+            <div class="subscription-cards">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="subscription-card">
+                            <div class="subscription-header">
+                                <h3>STANDARD</h3>
+                                <div class="subscription-price">
+                                    <span class="price">50 000</span>
+                                    <span class="currency">FCFA</span>
+                                </div>
+                            </div>
+                            <div class="subscription-content">
+                                <ul class="subscription-features">
+                                    <li><i class="fas fa-check"></i> Tous les matchs de championnat à domicile</li>
+                                    <li><i class="fas fa-check"></i> Place en tribune latérale</li>
+                                    <li><i class="fas fa-check"></i> Réduction de 10% sur la boutique</li>
+                                    <li><i class="fas fa-times"></i> Matchs de coupe</li>
+                                    <li><i class="fas fa-times"></i> Matchs internationaux</li>
+                                </ul>
+                                <button class="btn btn-primary btn-block" onclick="selectSubscription('standard')">SOUSCRIRE</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="subscription-card premium">
+                            <div class="subscription-badge">POPULAIRE</div>
+                            <div class="subscription-header">
+                                <h3>PREMIUM</h3>
+                                <div class="subscription-price">
+                                    <span class="price">80 000</span>
+                                    <span class="currency">FCFA</span>
+                                </div>
+                            </div>
+                            <div class="subscription-content">
+                                <ul class="subscription-features">
+                                    <li><i class="fas fa-check"></i> Tous les matchs de championnat à domicile</li>
+                                    <li><i class="fas fa-check"></i> Place en tribune centrale</li>
+                                    <li><i class="fas fa-check"></i> Matchs de coupe nationale</li>
+                                    <li><i class="fas fa-check"></i> Réduction de 15% sur la boutique</li>
+                                    <li><i class="fas fa-times"></i> Matchs internationaux</li>
+                                </ul>
+                                <button class="btn btn-primary btn-block" onclick="selectSubscription('premium')">SOUSCRIRE</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="subscription-card vip">
+                            <div class="subscription-header">
+                                <h3>VIP</h3>
+                                <div class="subscription-price">
+                                    <span class="price">150 000</span>
+                                    <span class="currency">FCFA</span>
+                                </div>
+                            </div>
+                            <div class="subscription-content">
+                                <ul class="subscription-features">
+                                    <li><i class="fas fa-check"></i> Tous les matchs à domicile (championnat et coupes)</li>
+                                    <li><i class="fas fa-check"></i> Place en loge VIP</li>
+                                    <li><i class="fas fa-check"></i> Accès aux matchs internationaux</li>
+                                    <li><i class="fas fa-check"></i> Réduction de 20% sur la boutique</li>
+                                    <li><i class="fas fa-check"></i> Invitation aux événements du club</li>
+                                </ul>
+                                <button class="btn btn-primary btn-block" onclick="selectSubscription('vip')">SOUSCRIRE</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Informations Billetterie -->
+    <section class="ticket-info-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="ticket-info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <h3>INFORMATIONS PRATIQUES</h3>
+                        <ul class="info-list">
+                            <li>Les billets sont disponibles jusqu'à 2h avant le début du match</li>
+                            <li>Présentez votre billet électronique à l'entrée du stade</li>
+                            <li>Arrivez au moins 1h avant le coup d'envoi</li>
+                            <li>Une pièce d'identité peut être demandée</li>
+                            <li>Les enfants de moins de 5 ans entrent gratuitement</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="ticket-info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <h3>QUESTIONS FRÉQUENTES</h3>
+                        <div class="accordion" id="faqAccordion">
+                            <div class="accordion-item">
+                                <h4 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                        Comment recevoir mes billets ?
+                                    </button>
+                                </h4>
+                                <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        Vos billets sont envoyés par email après l'achat. Vous pouvez les imprimer ou les présenter sur votre téléphone à l'entrée du stade.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h4 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                        Puis-je annuler ou échanger mes billets ?
+                                    </button>
+                                </h4>
+                                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        Les billets ne sont ni échangeables ni remboursables, sauf en cas d'annulation du match.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h4 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                        Y a-t-il des réductions pour les groupes ?
+                                    </button>
+                                </h4>
+                                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        Oui, des tarifs spéciaux sont disponibles pour les groupes de 10 personnes ou plus. Contactez-nous à billetterie@cotonsport.bj pour plus d'informations.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Sélection des Places -->
+    <div class="modal fade" id="seatSelectionModal" tabindex="-1" aria-labelledby="seatSelectionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="seatSelectionModalLabel">Sélection des places</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="match-details" id="modalMatchDetails">
+                        <!-- Détails du match sélectionné -->
+                    </div>
+                    
+                    <div class="ticket-categories">
+                        <div class="category-item" onclick="selectCategory('standard')">
+                            <div class="category-color standard"></div>
+                            <div class="category-info">
+                                <div class="category-name">Standard</div>
+                                <div class="category-price">3 000 FCFA</div>
+                            </div>
+                        </div>
+                        <div class="category-item" onclick="selectCategory('premium')">
+                            <div class="category-color premium"></div>
+                            <div class="category-info">
+                                <div class="category-name">Premium</div>
+                                <div class="category-price">5 000 FCFA</div>
+                            </div>
+                        </div>
+                        <div class="category-item" onclick="selectCategory('vip')">
+                            <div class="category-color vip"></div>
+                            <div class="category-info">
+                                <div class="category-name">VIP</div>
+                                <div class="category-price">10 000 FCFA</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stadium-map-container">
+                        <div class="stadium-map" id="stadiumMap">
+                            <!-- La carte du stade sera chargée dynamiquement ici -->
+                        </div>
+                        <div class="stadium-legend">
+                            <div class="legend-item">
+                                <div class="seat available"></div>
+                                <span>Disponible</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="seat selected"></div>
+                                <span>Sélectionné</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="seat occupied"></div>
+                                <span>Occupé</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="selected-seats-summary" id="selectedSeatsSummary">
+                        <!-- Résumé des places sélectionnées -->
+                        <p>Aucune place sélectionnée</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" onclick="proceedToCheckout()">Continuer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Checkout -->
+    <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="checkoutModalLabel">Finaliser votre commande</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="checkout-summary" id="checkoutSummary">
+                        <!-- Résumé de la commande -->
+                    </div>
+                    
+                    <form id="checkoutForm" class="checkout-form">
+                        <h4>Informations personnelles</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="firstName">Prénom</label>
+                                    <input type="text" class="form-control" id="firstName" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="lastName">Nom</label>
+                                    <input type="text" class="form-control" id="lastName" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control" id="email" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="phone">Téléphone</label>
+                                    <input type="tel" class="form-control" id="phone" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h4>Méthode de paiement</h4>
+                        <div class="payment-methods">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="paymentCard" checked>
+                                <label class="form-check-label" for="paymentCard">
+                                    Carte bancaire <i class="far fa-credit-card"></i>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="paymentMobile">
+                                <label class="form-check-label" for="paymentMobile">
+                                    Mobile Money <i class="fas fa-mobile-alt"></i>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div id="cardPaymentForm">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="cardNumber">Numéro de carte</label>
+                                        <input type="text" class="form-control" id="cardNumber" placeholder="XXXX XXXX XXXX XXXX">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="cardExpiry">Date d'expiration</label>
+                                        <input type="text" class="form-control" id="cardExpiry" placeholder="MM/AA">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="cardCvc">CVC</label>
+                                        <input type="text" class="form-control" id="cardCvc" placeholder="123">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="mobilePaymentForm" style="display: none;">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="mobileOperator">Opérateur</label>
+                                        <select class="form-control" id="mobileOperator">
+                                            <option value="mtn">MTN Mobile Money</option>
+                                            <option value="moov">Moov Money</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="mobileNumber">Numéro de téléphone</label>
+                                        <input type="tel" class="form-control" id="mobileNumber" placeholder="+229 XX XX XX XX">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" onclick="completePayment()">Payer maintenant</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Confirmation -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel">Confirmation de commande</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="confirmation-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h4>Merci pour votre achat !</h4>
+                    <p>Votre commande a été confirmée et vos billets ont été envoyés à votre adresse email.</p>
+                    <div class="ticket-reference">
+                        <p>Référence de commande : <strong id="orderReference">COTON-12345</strong></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="footer-brand">
+                        <img src="assets/images/logo.png" alt="Coton Sport Logo" class="footer-logo">
+                        <h3>COTON SPORT</h3>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h4>LIENS RAPIDES</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="#">Actualités</a></li>
+                        <li><a href="#">Matchs</a></li>
+                        <li><a href="boutique.html">Boutique</a></li>
+                        <li><a href="billetterie.html">Billetterie</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h4>ÉQUIPES</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Coton FC</a></li>
+                        <li><a href="#">Elan Coton BC</a></li>
+                        <li><a href="#">Académie</a></li>
+                        <li><a href="#">Féminines</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h4>CONTACT</h4>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-map-marker-alt"></i> Stade Charles de Gaulle, Porto-Novo, Bénin</li>
+                        <li><i class="fas fa-phone"></i> +229 97 97 97 97</li>
+                        <li><i class="fas fa-envelope"></i> contact@cotonsport.bj</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Coton Sport Bénin. Tous droits réservés.</p>
+                <div class="footer-legal">
+                    <a href="#">Mentions légales</a>
+                    <a href="#">Politique de confidentialité</a>
+                    <a href="#">CGV</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts JS -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.27/dist/lenis.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/billetterie.js"></script>
+</body>
+</html>

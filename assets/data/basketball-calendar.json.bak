@@ -1,0 +1,34 @@
+{
+  "matches": [
+    {
+      "id": 4,
+      "date": "2025-05-19T18:00:00",
+      "competition": "Championnat J6",
+      "homeTeam": "Dragons BC",
+      "awayTeam": "Elan Coton BC",
+      "venue": "Palais des Sports, Cotonou",
+      "ticketLink": "#tickets-b4",
+      "ticketAvailable": true
+    },
+    {
+      "id": 5,
+      "date": "2025-05-26T18:00:00",
+      "competition": "Championnat J7",
+      "homeTeam": "Elan Coton BC",
+      "awayTeam": "Phénix BC",
+      "venue": "Palais des Sports, Cotonou",
+      "ticketLink": "#tickets-b5",
+      "ticketAvailable": true
+    },
+    {
+      "id": 6,
+      "date": "2025-06-02T18:00:00",
+      "competition": "Championnat J8",
+      "homeTeam": "Lions BC",
+      "awayTeam": "Elan Coton BC",
+      "venue": "Palais des Sports, Parakou",
+      "ticketLink": "#match-details-b6",
+      "ticketAvailable": false
+    }
+  ]
+}

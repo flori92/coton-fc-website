@@ -6,9 +6,11 @@
       "competition": "Championnat J6",
       "homeTeam": "Dragons BC",
       "awayTeam": "Elan Coton BC",
-      "venue": "Palais des Sports, Cotonou",
-      "ticketLink": "#tickets-b4",
-      "ticketAvailable": true
+      "location": "Palais des Sports, Cotonou",
+      "time": "18:00",
+      "ticketLink": "billetterie.html?match=b4",
+      "ticketAvailable": true,
+      "isHome": false
     },
     {
       "id": 5,
@@ -16,9 +18,11 @@
       "competition": "Championnat J7",
       "homeTeam": "Elan Coton BC",
       "awayTeam": "Phénix BC",
-      "venue": "Palais des Sports, Cotonou",
-      "ticketLink": "#tickets-b5",
-      "ticketAvailable": true
+      "location": "Palais des Sports, Cotonou",
+      "time": "18:00",
+      "ticketLink": "billetterie.html?match=b5",
+      "ticketAvailable": true,
+      "isHome": true
     },
     {
       "id": 6,
@@ -26,9 +30,59 @@
       "competition": "Championnat J8",
       "homeTeam": "Lions BC",
       "awayTeam": "Elan Coton BC",
-      "venue": "Palais des Sports, Parakou",
+      "location": "Palais des Sports, Parakou",
+      "time": "18:00",
       "ticketLink": "#match-details-b6",
-      "ticketAvailable": false
+      "ticketAvailable": false,
+      "isHome": false
+    },
+    {
+      "id": 7,
+      "date": "2025-06-09T18:00:00",
+      "competition": "Championnat J9",
+      "homeTeam": "Elan Coton BC",
+      "awayTeam": "Tigres BC",
+      "location": "Palais des Sports, Cotonou",
+      "time": "18:00",
+      "ticketLink": "billetterie.html?match=b7",
+      "ticketAvailable": true,
+      "isHome": true
+    },
+    {
+      "id": 8,
+      "date": "2025-06-16T18:00:00",
+      "competition": "Championnat J10",
+      "homeTeam": "Aigles BC",
+      "awayTeam": "Elan Coton BC",
+      "location": "Palais des Sports, Porto-Novo",
+      "time": "18:00",
+      "ticketLink": "#match-details-b8",
+      "ticketAvailable": false,
+      "isHome": false
+    },
+    {
+      "id": 9,
+      "date": "2025-06-23T18:00:00",
+      "competition": "Championnat J11",
+      "homeTeam": "Elan Coton BC",
+      "awayTeam": "Panthères BC",
+      "location": "Palais des Sports, Cotonou",
+      "time": "18:00",
+      "ticketLink": "billetterie.html?match=b9",
+      "ticketAvailable": true,
+      "isHome": true
+    },
+    {
+      "id": 10,
+      "date": "2025-06-30T18:00:00",
+      "competition": "Coupe du Bénin - 8ème de finale",
+      "homeTeam": "Elan Coton BC",
+      "awayTeam": "AS Coton Basket",
+      "location": "Palais des Sports, Cotonou",
+      "time": "18:00",
+      "ticketLink": "billetterie.html?match=b10",
+      "ticketAvailable": true,
+      "isHome": true
     }
   ]
 }
