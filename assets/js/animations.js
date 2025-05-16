@@ -72,33 +72,63 @@ function handleScrollAnimations() {
  * Initialise le défilement fluide avec Lenis
  */
 function initSmoothScroll() {
-    const lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        direction: 'vertical',
-        gestureDirection: 'vertical',
-        smooth: true,
-        smoothTouch: false,
-        touchMultiplier: 2,
-    });
-
-    function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
+    // Vérifier si Lenis est chargé
+    if (typeof Lenis === 'undefined') {
+        console.warn('Lenis n\'est pas chargé. Le défilement fluide sera désactivé.');
+        return;
     }
-
-    requestAnimationFrame(raf);
     
-    // Mise à jour des liens de navigation pour le smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                lenis.scrollTo(target, { offset: -80 });
+    try {
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            if (lenis) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+        }
+
+        requestAnimationFrame(raf);
+
+        // Mise à jour des positions au redimensionnement
+        const handleResize = () => {
+            if (lenis) lenis.resize();
+        };
+        
+        window.addEventListener('resize', handleResize);
+
+        // Gestion des ancres
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            const href = anchor.getAttribute('href');
+            if (href !== '#') { // Ne pas intercepter les liens vides
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target && lenis) {
+                        lenis.scrollTo(target, {
+                            offset: -80, // Ajuster selon la hauteur du header
+                            duration: 1.2
+                        });
+                    }
+                });
             }
         });
-    });
+        
+        // Nettoyage
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    } catch (error) {
+        console.error('Erreur lors de l\'initialisation de Lenis:', error);
+    }
 }
 
 /**

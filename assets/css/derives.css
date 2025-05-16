@@ -303,9 +303,15 @@
     border: none;
     text-align: center;
     font-size: 0.95rem;
+    /* Propriétés avec préfixes vendeurs */
     -webkit-appearance: textfield;
     -moz-appearance: textfield;
+    /* Propriété standard */
     appearance: textfield;
+    /* Correction pour certains navigateurs */
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 /* Correction pour les boutons de quantité dans les navigateurs WebKit */
@@ -319,9 +325,9 @@
 
 /* Correction pour Firefox */
 .quantity-input[type=number] {
-    -webkit-appearance: textfield;
-    -moz-appearance: textfield;
-    appearance: textfield;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 
 .add-to-cart-btn {

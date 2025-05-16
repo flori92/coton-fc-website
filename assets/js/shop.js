@@ -1,3 +1,6 @@
+// Vérifier si nous sommes dans un environnement Node.js
+const isNode = typeof module !== 'undefined' && module.exports;
+
 // Données des maillots de la saison en cours (2024-2025)
 const productsData = {
     jerseys: [
