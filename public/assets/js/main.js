@@ -68,14 +68,19 @@ function initCountdown() {
  */
 function initTabs() {
     const tabButtons = document.querySelectorAll('.tab');
-    const matchesTable = document.querySelector('.matches-table');
-    const matchesCalendar = document.querySelector('.matches-calendar');
-    
-    if (!matchesTable || !matchesCalendar) return;
     
     tabButtons.forEach(button => {
         button.addEventListener('click', function() {
-            // Retirer la classe active de tous les onglets
+            // Identifier la section parente (football ou basketball)
+            const section = this.closest('.matches-section');
+            if (!section) return;
+            
+            const matchesTable = section.querySelector('.matches-table');
+            const matchesCalendar = section.querySelector('.matches-calendar');
+            
+            if (!matchesTable || !matchesCalendar) return;
+            
+            // Retirer la classe active de tous les onglets de cette section
             const siblings = Array.from(this.parentElement.children);
             siblings.forEach(sibling => sibling.classList.remove('active'));
             
@@ -84,7 +89,7 @@ function initTabs() {
             
             // Afficher le contenu correspondant à l'onglet
             const tabType = this.textContent.trim();
-            console.log(`Onglet ${tabType} activé`);
+            console.log(`Onglet ${tabType} activé dans ${section.id}`);
             
             if (tabType === 'RÉSULTATS') {
                 // Afficher les résultats
@@ -110,9 +115,16 @@ function initTabs() {
         });
     });
     
-    // Initialisation : afficher les résultats par défaut
-    matchesTable.style.display = 'block';
-    matchesCalendar.style.display = 'none';
+    // Initialisation : afficher les résultats par défaut dans toutes les sections
+    document.querySelectorAll('.matches-section').forEach(section => {
+        const matchesTable = section.querySelector('.matches-table');
+        const matchesCalendar = section.querySelector('.matches-calendar');
+        
+        if (matchesTable && matchesCalendar) {
+            matchesTable.style.display = 'block';
+            matchesCalendar.style.display = 'none';
+        }
+    });
 }
 
 /**
