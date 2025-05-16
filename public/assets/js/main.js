@@ -1,6 +1,12 @@
 // Script principal pour le site Coton FC
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialisation de Lenis pour le smooth scroll
+    initLenisScroll();
+    
+    // Initialisation des animations avec anime.js
+    initAnimeAnimations();
+    
     // Initialisation du compte à rebours
     initCountdown();
     
@@ -12,9 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Carrousel de bannière
     initBannerCarousel();
-    
-    // Animation au défilement
-    initScrollAnimations();
 });
 
 /**
@@ -153,11 +156,218 @@ function initBannerCarousel() {
 }
 
 /**
+ * Initialise Lenis pour le smooth scroll
+ */
+function initLenisScroll() {
+    // Vérifier si la librairie Lenis est chargée
+    if (typeof Lenis === 'undefined') {
+        console.error('La librairie Lenis n\'est pas chargée');
+        return;
+    }
+    
+    // Initialiser Lenis
+    const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        direction: 'vertical',
+        gestureDirection: 'vertical',
+        smooth: true,
+        mouseMultiplier: 1,
+        smoothTouch: false,
+        touchMultiplier: 2,
+        infinite: false
+    });
+    
+    // Fonction pour mettre à jour Lenis à chaque frame
+    function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+    }
+    
+    // Démarrer la boucle d'animation
+    requestAnimationFrame(raf);
+    
+    // Ajouter des événements pour les liens d'ancrage
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                lenis.scrollTo(targetElement, {
+                    offset: -100,
+                    duration: 1.5
+                });
+            }
+        });
+    });
+    
+    console.log('Lenis smooth scroll initialisé');
+}
+
+/**
+ * Initialise les animations avec anime.js
+ */
+function initAnimeAnimations() {
+    // Vérifier si la librairie anime.js est chargée
+    if (typeof anime === 'undefined') {
+        console.error('La librairie anime.js n\'est pas chargée');
+        return;
+    }
+    
+    // Animation des cartes de joueurs
+    animatePlayerCards();
+    
+    // Animation des cartes de staff
+    animateStaffCards();
+    
+    // Animation des cartes de trophées
+    animateTrophyCards();
+    
+    // Animation des cartes de partenaires
+    animatePartnerCards();
+    
+    // Animation des éléments au scroll
+    initScrollAnimations();
+    
+    console.log('Animations anime.js initialisées');
+}
+
+/**
+ * Anime les cartes de joueurs
+ */
+function animatePlayerCards() {
+    const playerCards = document.querySelectorAll('.player-card');
+    if (!playerCards.length) return;
+    
+    playerCards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(50px)';
+        
+        // Observer pour déclencher l'animation au scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    anime({
+                        targets: card,
+                        opacity: 1,
+                        translateY: 0,
+                        duration: 800,
+                        easing: 'easeOutExpo',
+                        delay: index * 100
+                    });
+                    observer.unobserve(card);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        observer.observe(card);
+    });
+}
+
+/**
+ * Anime les cartes de staff
+ */
+function animateStaffCards() {
+    const staffCards = document.querySelectorAll('.staff-card');
+    if (!staffCards.length) return;
+    
+    staffCards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(50px)';
+        
+        // Observer pour déclencher l'animation au scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    anime({
+                        targets: card,
+                        opacity: 1,
+                        translateY: 0,
+                        duration: 800,
+                        easing: 'easeOutExpo',
+                        delay: index * 150
+                    });
+                    observer.unobserve(card);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        observer.observe(card);
+    });
+}
+
+/**
+ * Anime les cartes de trophées
+ */
+function animateTrophyCards() {
+    const trophyCards = document.querySelectorAll('.trophy-card');
+    if (!trophyCards.length) return;
+    
+    trophyCards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'scale(0.8)';
+        
+        // Observer pour déclencher l'animation au scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    anime({
+                        targets: card,
+                        opacity: 1,
+                        scale: 1,
+                        duration: 800,
+                        easing: 'easeOutElastic(1, .5)',
+                        delay: index * 200
+                    });
+                    observer.unobserve(card);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        observer.observe(card);
+    });
+}
+
+/**
+ * Anime les cartes de partenaires
+ */
+function animatePartnerCards() {
+    const partnerCards = document.querySelectorAll('.partner-card');
+    if (!partnerCards.length) return;
+    
+    partnerCards.forEach((card, index) => {
+        card.style.opacity = '0';
+        
+        // Observer pour déclencher l'animation au scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    anime({
+                        targets: card,
+                        opacity: 1,
+                        duration: 600,
+                        easing: 'easeInOutQuad',
+                        delay: index * 100
+                    });
+                    observer.unobserve(card);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        observer.observe(card);
+    });
+}
+
+/**
  * Initialise les animations au défilement
  */
 function initScrollAnimations() {
     // Détecter les éléments à animer
-    const animatedElements = document.querySelectorAll('.section-header, .player-card, .news-card');
+    const animatedElements = document.querySelectorAll('.section-header, .news-card');
+    if (!animatedElements.length) return;
     
     // Fonction pour vérifier si un élément est visible
     function isElementInViewport(el) {
@@ -170,29 +380,31 @@ function initScrollAnimations() {
         );
     }
     
-    // Fonction pour animer les éléments visibles
-    function animateOnScroll() {
-        animatedElements.forEach(element => {
-            if (isElementInViewport(element) && !element.classList.contains('animated')) {
-                element.classList.add('animated');
-                element.style.opacity = '1';
-                element.style.transform = 'translateY(0)';
-            }
-        });
-    }
-    
     // Initialiser les styles pour l'animation
     animatedElements.forEach(element => {
         element.style.opacity = '0';
         element.style.transform = 'translateY(20px)';
-        element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
     });
     
-    // Écouter l'événement de défilement
-    window.addEventListener('scroll', animateOnScroll);
+    // Observer pour déclencher l'animation au scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                anime({
+                    targets: entry.target,
+                    opacity: 1,
+                    translateY: 0,
+                    duration: 800,
+                    easing: 'easeOutExpo'
+                });
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
     
-    // Déclencher une fois au chargement
-    animateOnScroll();
+    animatedElements.forEach(element => {
+        observer.observe(element);
+    });
 }
 
 /**
