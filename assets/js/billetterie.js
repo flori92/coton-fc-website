@@ -161,71 +161,182 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /**
- * Charge les prochains matchs depuis l'API
- * @returns {Promise} Une promesse résolue lorsque les matchs sont chargés
+ * Charge les prochains matchs depuis le fichier JSON local
+ * @returns {Promise<Array>} Une promesse résolue avec la liste des matchs à venir
  */
 async function loadUpcomingMatches() {
+    const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes de cache
+    const CACHE_KEY = 'cotonfc_matches_cache';
+    const container = document.getElementById('footballMatchesTickets');
+    
+    // Afficher un indicateur de chargement
+    if (container) {
+        container.innerHTML = `
+            <div class="d-flex justify-content-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Chargement des matchs...</span>
+                </div>
+                <p class="ms-3 my-auto">Chargement des prochains matchs...</p>
+            </div>`;
+    }
+    
     try {
+        // Vérifier le cache
+        const cachedData = localStorage.getItem(CACHE_KEY);
+        const now = new Date().getTime();
+        
+        if (cachedData) {
+            const { data, timestamp } = JSON.parse(cachedData);
+            
+            // Utiliser les données en cache si elles sont récentes
+            if (now - timestamp < CACHE_DURATION && data && Array.isArray(data.matches)) {
+                console.log('Utilisation des matchs en cache');
+                const upcomingMatches = filterUpcomingMatches(data.matches);
+                renderMatchesTickets(upcomingMatches, 'football');
+                return upcomingMatches;
+            }
+        }
+        
         // Récupérer les matchs depuis le fichier JSON local
-        const response = await fetch('assets/data/football-calendar-new.json');
+        const response = await fetch('assets/data/football-calendar-new.json', {
+            headers: {
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache'
+            }
+        });
         
         if (!response.ok) {
-            throw new Error('Erreur lors du chargement des matchs');
+            throw new Error(`Erreur HTTP: ${response.status} - ${response.statusText}`);
         }
         
         const data = await response.json();
         
-        if (!data || !data.matches || !Array.isArray(data.matches)) {
-            throw new Error('Format de données invalide');
+        // Valider la structure des données
+        if (!data || !Array.isArray(data.matches)) {
+            throw new Error('Format de données invalide: le fichier JSON doit contenir un tableau "matches"');
         }
         
-        // Filtrer les matchs à venir
+        // Mettre en cache les données
+        try {
+            localStorage.setItem(CACHE_KEY, JSON.stringify({
+                data,
+                timestamp: now
+            }));
+        } catch (e) {
+            console.warn('Impossible de mettre en cache les données des matchs:', e);
+        }
+        
+        // Filtrer et afficher les matchs à venir
         const upcomingMatches = filterUpcomingMatches(data.matches);
-        
-        // Afficher les matchs dans l'interface
-        if (upcomingMatches.length > 0) {
-            renderMatchesTickets(upcomingMatches, 'football');
-        } else {
-            // Aucun match à venir, afficher un message
-            const container = document.getElementById('matchs-football');
-            if (container) {
-                container.innerHTML = `
-                    <div class="container">
-                        <div class="section-header">
-                            <h2>PROCHAINS MATCHS</h2>
-                            <p>Découvrez les prochaines rencontres à domicile</p>
-                        </div>
-                        <div class="alert alert-info">
-                            <i class="fas fa-info-circle me-2"></i>
-                            Aucun match à venir pour le moment. Revenez plus tard pour découvrir les prochaines rencontres.
-                        </div>
-                    </div>
-                `;
-            }
-        }
+        renderMatchesTickets(upcomingMatches, 'football');
         
         return upcomingMatches;
+        
     } catch (error) {
         console.error('Erreur dans loadUpcomingMatches:', error);
         
-        // Afficher un message d'erreur
-        const container = document.getElementById('matchs-football');
-        if (container) {
-            container.innerHTML = `
-                <div class="container">
-                    <div class="alert alert-danger">
-                        <i class="fas fa-exclamation-triangle me-2"></i>
-                        Une erreur est survenue lors du chargement des matchs. Veuillez réessayer plus tard.
-                        <div class="mt-2 small">${error.message}</div>
-                    </div>
-                </div>
-            `;
+        // Essayer d'utiliser les données en cache même si elles sont périmées
+        try {
+            const cachedData = localStorage.getItem(CACHE_KEY);
+            if (cachedData) {
+                const { data } = JSON.parse(cachedData);
+                if (data && Array.isArray(data.matches)) {
+                    console.warn('Utilisation des données en cache (périmées) en raison d\'une erreur');
+                    const upcomingMatches = filterUpcomingMatches(data.matches);
+                    renderMatchesTickets(upcomingMatches, 'football');
+                    
+                    // Afficher un avertissement
+                    showToast('Données en cache utilisées (connexion limitée)', 'warning');
+                    return upcomingMatches;
+                }
+            }
+        } catch (cacheError) {
+            console.error('Erreur lors de la récupération du cache:', cacheError);
         }
         
-        // Afficher des matchs de démonstration en cas d'erreur
+        // Afficher un message d'erreur convivial
+        if (container) {
+            container.innerHTML = `
+                <div class="alert alert-danger">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-exclamation-triangle fa-2x me-3"></i>
+                        <div>
+                            <h5 class="alert-heading">Erreur de chargement</h5>
+                            <p class="mb-0">Impossible de charger les prochains matchs. Veuillez vérifier votre connexion et réessayer.</p>
+                            ${process.env.NODE_ENV === 'development' ? 
+                                `<div class="mt-2 small text-muted">${error.message}</div>` : ''}
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-3">
+                    <button class="btn btn-outline-primary" onclick="window.location.reload()">
+                        <i class="fas fa-sync-alt me-2"></i>Réessayer
+                    </button>
+                </div>`;
+        }
+        
+        // Afficher des matchs de démonstration en dernier recours
         renderDemoMatches('football');
-        throw error; // Propager l'erreur pour le catch principal
+        
+        // Propager l'erreur pour le catch principal
+        throw new Error(`Échec du chargement des matchs: ${error.message}`);
     }
+}
+
+/**
+ * Affiche une notification toast
+ * @param {string} message - Message à afficher
+ * @param {string} type - Type de notification (success, error, warning, info)
+ */
+function showToast(message, type = 'info') {
+    const toastContainer = document.getElementById('toast-container') || createToastContainer();
+    const toastId = 'toast-' + Date.now();
+    const icon = {
+        success: 'check-circle',
+        error: 'exclamation-circle',
+        warning: 'exclamation-triangle',
+        info: 'info-circle'
+    }[type] || 'info-circle';
+    
+    const toast = document.createElement('div');
+    toast.id = toastId;
+    toast.className = `toast show align-items-center text-white bg-${type} border-0`;
+    toast.role = 'alert';
+    toast.setAttribute('aria-live', 'assertive');
+    toast.setAttribute('aria-atomic', 'true');
+    
+    toast.innerHTML = `
+        <div class="d-flex">
+            <div class="toast-body d-flex align-items-center">
+                <i class="fas fa-${icon} me-2"></i>
+                ${message}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Fermer"></button>
+        </div>`;
+    
+    toastContainer.appendChild(toast);
+    
+    // Fermer automatiquement après 5 secondes
+    setTimeout(() => {
+        const bsToast = new bootstrap.Toast(toast);
+        toast.addEventListener('hidden.bs.toast', () => {
+            toast.remove();
+        });
+        bsToast.hide();
+    }, 5000);
+}
+
+/**
+ * Crée un conteneur pour les toasts s'il n'existe pas
+ * @returns {HTMLElement} Le conteneur de toasts
+ */
+function createToastContainer() {
+    const container = document.createElement('div');
+    container.id = 'toast-container';
+    container.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+    container.style.zIndex = '1100'; // Au-dessus de la modale Bootstrap
+    document.body.appendChild(container);
+    return container;
 }
 
 /**
@@ -234,72 +345,144 @@ async function loadUpcomingMatches() {
  * @param {string} sport - Type de sport (football ou basketball)
  */
 function renderMatchesTickets(matches, sport) {
-    const container = document.getElementById(`${sport}MatchesTickets`);
-    container.innerHTML = '';
-    
-    // Filtrer pour ne garder que les matchs à venir
-    const upcomingMatches = filterUpcomingMatches(matches);
-    
-    if (upcomingMatches.length === 0) {
-        container.innerHTML = `<div class="no-matches">
-            <p>Aucun match à venir pour le moment. Revenez bientôt !</p>
-        </div>`;
-        return;
-    }
-    
-    // Limiter à 6 matchs maximum
-    const matchesToShow = upcomingMatches.slice(0, 6);
-    
-    matchesToShow.forEach(match => {
-        const isHome = match.isHome || match.location.includes('Stade');
-        const isSoldOut = Math.random() > 0.8; // Simulation de matchs complets (20% de chance)
-        
-        if (isHome) {
-            const matchCard = document.createElement('div');
-            matchCard.className = 'match-card';
-            matchCard.setAttribute('data-match-id', match.id || generateMatchId(match));
-            matchCard.setAttribute('data-sport', sport);
-            
-            matchCard.innerHTML = `
-                <div class="match-header">
-                    <div class="competition">${match.competition || 'Championnat'}</div>
-                    <div class="match-date">${formatMatchDate(match.date)}</div>
-                </div>
-                <div class="match-content">
-                    <div class="match-teams">
-                        <div class="team">
-                            <img src="${getTeamLogo(match.homeTeam)}" alt="${match.homeTeam}" class="team-logo">
-                            <div class="team-name">${match.homeTeam}</div>
-                        </div>
-                        <div class="match-vs">VS</div>
-                        <div class="team">
-                            <img src="${getTeamLogo(match.awayTeam)}" alt="${match.awayTeam}" class="team-logo">
-                            <div class="team-name">${match.awayTeam}</div>
-                        </div>
-                    </div>
-                    <div class="match-info">
-                        <div class="info-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>${match.location || 'Stade Charles de Gaulle'}</span>
-                        </div>
-                        <div class="info-item">
-                            <i class="far fa-clock"></i>
-                            <span>${match.time || '15:00'}</span>
-                        </div>
-                    </div>
-                    <div class="match-actions">
-                        <button class="btn-tickets ${isSoldOut ? 'sold-out' : ''}" 
-                                onclick="openTicketSelection(this)" 
-                                ${isSoldOut ? 'disabled' : ''}>
-                            ${isSoldOut ? 'COMPLET' : 'RÉSERVER DES BILLETS'}
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            container.appendChild(matchCard);
+    try {
+        const container = document.getElementById(`${sport}MatchesTickets`);
+        if (!container) {
+            console.error(`Conteneur pour les matchs de ${sport} introuvable`);
+            return;
         }
-    });
+        
+        // Afficher un indicateur de chargement
+        container.innerHTML = `
+            <div class="d-flex justify-content-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Chargement...</span>
+                </div>
+            </div>`;
+        
+        // S'assurer que matches est un tableau
+        if (!matches || !Array.isArray(matches)) {
+            throw new Error('Format de données invalide pour les matchs');
+        }
+        
+        // Filtrer pour ne garder que les matchs à venir
+        const upcomingMatches = filterUpcomingMatches(matches);
+        
+        // Vérifier s'il y a des matchs à afficher
+        if (upcomingMatches.length === 0) {
+            container.innerHTML = `
+                <div class="no-matches text-center py-5">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Aucun match à domicile prévu pour le moment. Revenez bientôt pour découvrir les prochaines rencontres !
+                    </div>
+                </div>`;
+            return;
+        }
+        
+        // Limiter à 6 matchs maximum
+        const matchesToShow = upcomingMatches.slice(0, 6);
+        let matchesHTML = '';
+        
+        // Générer le HTML pour chaque match
+        matchesToShow.forEach(match => {
+            try {
+                const isHome = match.isHome || (match.location && match.location.includes('Stade'));
+                const isSoldOut = match.ticketAvailable === false || Math.random() > 0.8; // 20% de chance d'être complet
+                
+                if (isHome) {
+                    const matchDate = match.date ? formatMatchDate(match.date) : 'Date à confirmer';
+                    const matchTime = match.time || '--:--';
+                    const matchLocation = match.location || 'Lieu à confirmer';
+                    
+                    matchesHTML += `
+                        <div class="col-md-6 col-lg-4 mb-4" data-match-id="${match.id || generateMatchId(match)}" data-sport="${sport}">
+                            <div class="match-card h-100">
+                                <div class="match-header">
+                                    <span class="badge bg-primary">${match.competition || 'Championnat'}</span>
+                                    <span class="match-date">${matchDate}</span>
+                                </div>
+                                <div class="match-body p-3">
+                                    <div class="match-teams text-center">
+                                        <div class="team mb-3">
+                                            <img src="${getTeamLogo(match.homeTeam)}" 
+                                                 alt="${match.homeTeam}" 
+                                                 class="team-logo" 
+                                                 onerror="this.onerror=null; this.src='assets/images/teams/default.png'"
+                                            >
+                                            <div class="team-name">${match.homeTeam}</div>
+                                        </div>
+                                        <div class="match-vs mb-3">VS</div>
+                                        <div class="team">
+                                            <img src="${getTeamLogo(match.awayTeam)}" 
+                                                 alt="${match.awayTeam}" 
+                                                 class="team-logo"
+                                                 onerror="this.onerror=null; this.src='assets/images/teams/default.png'"
+                                            >
+                                            <div class="team-name">${match.awayTeam}</div>
+                                        </div>
+                                    </div>
+                                    <div class="match-info mt-3">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="far fa-clock me-2"></i>
+                                            <span>${matchTime}</span>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-map-marker-alt me-2"></i>
+                                            <span>${matchLocation}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="match-footer text-center p-3">
+                                    <button class="btn ${isSoldOut ? 'btn-secondary' : 'btn-primary'} w-100" 
+                                            onclick="openTicketSelection(this)" 
+                                            ${isSoldOut ? 'disabled' : ''}>
+                                        <i class="fas ${isSoldOut ? 'fa-times-circle' : 'fa-ticket-alt'} me-2"></i>
+                                        ${isSoldOut ? 'COMPLET' : 'RÉSERVER DES BILLETS'}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>`;
+                }
+            } catch (error) {
+                console.error('Erreur lors du rendu d\'un match:', error, match);
+            }
+        });
+        
+        // Mettre à jour le conteneur avec les matchs
+        if (matchesHTML) {
+            container.innerHTML = `
+                <div class="row g-4">
+                    ${matchesHTML}
+                </div>`;
+        } else {
+            container.innerHTML = `
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Aucun match à domicile prévu pour le moment.
+                </div>`;
+        }
+        
+        // Initialiser les tooltips Bootstrap
+        if (typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
+            const tooltipTriggerList = [].slice.call(container.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        }
+        
+    } catch (error) {
+        console.error('Erreur dans renderMatchesTickets:', error);
+        const container = document.getElementById(`${sport}MatchesTickets`);
+        if (container) {
+            container.innerHTML = `
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Une erreur est survenue lors du chargement des matchs. Veuillez réessayer plus tard.
+                    ${process.env.NODE_ENV === 'development' ? `<div class="mt-2 small">${error.message}</div>` : ''}
+                </div>`;
+        }
+    }
 }
 
 /**
@@ -374,11 +557,39 @@ function renderDemoMatches(sport) {
  * @returns {Array} - Liste des matchs à venir
  */
 function filterUpcomingMatches(matches) {
+    if (!matches || !Array.isArray(matches)) {
+        console.error('filterUpcomingMatches: Paramètre invalide, tableau attendu');
+        return [];
+    }
+    
     const today = new Date();
+    today.setHours(0, 0, 0, 0); // Réinitialiser l'heure à minuit pour la comparaison
     
     return matches.filter(match => {
-        const matchDate = new Date(match.date);
-        return matchDate >= today;
+        try {
+            if (!match || !match.date) return false;
+            
+            // Gérer à la fois les chaînes de caractères et les objets Date
+            const matchDate = new Date(match.date);
+            
+            // Vérifier si la date est valide
+            if (isNaN(matchDate.getTime())) {
+                console.warn('Date de match invalide:', match.date, 'pour le match', match.id || match.homeTeam + ' vs ' + match.awayTeam);
+                return false;
+            }
+            
+            // Réinitialiser l'heure à minuit pour la comparaison
+            const matchDateOnly = new Date(matchDate);
+            matchDateOnly.setHours(0, 0, 0, 0);
+            
+            return matchDateOnly >= today;
+        } catch (error) {
+            console.error('Erreur lors du filtrage des matchs:', error, match);
+            return false;
+        }
+    }).sort((a, b) => {
+        // Trier par date croissante
+        return new Date(a.date) - new Date(b.date);
     });
 }
 
