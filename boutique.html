@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boutique Officielle - Coton Sport</title>
+    <meta name="description" content="Boutique officielle de Coton Sport. Achetez les maillots officiels de Coton FC et Elan Coton BC, personnalisez vos maillots et découvrez tous nos produits dérivés.">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/boutique.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="assets/images/logo.png" alt="Coton Sport Logo" class="logo">
+                <span>COTON SPORT</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">CLUB</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Historique</a></li>
+                            <li><a class="dropdown-item" href="#">Organigramme</a></li>
+                            <li><a class="dropdown-item" href="#">Infrastructures</a></li>
+                            <li><a class="dropdown-item" href="#">Partenaires</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">COTON FC</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Effectif</a></li>
+                            <li><a class="dropdown-item" href="#">Staff technique</a></li>
+                            <li><a class="dropdown-item" href="#">Matchs</a></li>
+                            <li><a class="dropdown-item" href="#">Palmarès</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">ELAN COTON BC</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Effectif</a></li>
+                            <li><a class="dropdown-item" href="#">Staff technique</a></li>
+                            <li><a class="dropdown-item" href="#">Matchs</a></li>
+                            <li><a class="dropdown-item" href="#">Palmarès</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">ACTUALITÉS</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Toutes les actualités</a></li>
+                            <li><a class="dropdown-item" href="#">Football</a></li>
+                            <li><a class="dropdown-item" href="#">Basketball</a></li>
+                            <li><a class="dropdown-item" href="#">Club</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">MÉDIA</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Photos</a></li>
+                            <li><a class="dropdown-item" href="#">Vidéos</a></li>
+                            <li><a class="dropdown-item" href="#">Accréditation Presse</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="boutique.html">BOUTIQUE</a>
+                    </li>
+                </ul>
+                <div class="nav-actions">
+                    <a href="#" class="search-btn"><i class="fas fa-search"></i></a>
+                    <a href="#" class="user-btn"><i class="fas fa-user"></i></a>
+                    <a href="#" class="cart-btn" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Bannière Boutique -->
+    <section class="shop-banner">
+        <div class="container">
+            <div class="shop-banner-content">
+                <h1>BOUTIQUE OFFICIELLE</h1>
+                <p>Équipez-vous aux couleurs de Coton Sport</p>
+                <div class="shop-actions">
+                    <a href="#maillots" class="btn btn-primary">MAILLOTS OFFICIELS</a>
+                    <a href="#personnalisation" class="btn btn-outline-light">PERSONNALISER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Catégories Boutique -->
+    <section class="shop-categories">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="category-card" onclick="filterProducts('maillots')">
+                        <img src="assets/images/boutique/cat-maillots.jpg" alt="Maillots">
+                        <div class="category-overlay">
+                            <h3>MAILLOTS</h3>
+                            <p>Domicile, Extérieur, Third</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="category-card" onclick="filterProducts('training')">
+                        <img src="assets/images/boutique/cat-training.jpg" alt="Training">
+                        <div class="category-overlay">
+                            <h3>TRAINING</h3>
+                            <p>Survêtements, Entraînement</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="category-card" onclick="filterProducts('accessoires')">
+                        <img src="assets/images/boutique/cat-accessoires.jpg" alt="Accessoires">
+                        <div class="category-overlay">
+                            <h3>ACCESSOIRES</h3>
+                            <p>Écharpes, Casquettes, Ballons</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nouveautés -->
+    <section class="shop-new-products">
+        <div class="container">
+            <div class="section-header">
+                <h2>NOUVEAUTÉS</h2>
+                <p>Découvrez nos derniers produits</p>
+            </div>
+            <div class="row product-grid" id="newProductsGrid">
+                <!-- Les produits seront chargés dynamiquement ici -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Maillots Officiels -->
+    <section class="shop-jerseys" id="maillots">
+        <div class="container">
+            <div class="section-header">
+                <h2>MAILLOTS OFFICIELS</h2>
+                <div class="tabs">
+                    <button class="tab active" onclick="filterJerseys('football')">COTON FC</button>
+                    <button class="tab" onclick="filterJerseys('basketball')">ELAN COTON BC</button>
+                </div>
+            </div>
+            <div class="row product-grid" id="jerseysGrid">
+                <!-- Les maillots seront chargés dynamiquement ici -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Personnalisation -->
+    <section class="shop-customization" id="personnalisation">
+        <div class="container">
+            <div class="section-header">
+                <h2>PERSONNALISEZ VOTRE MAILLOT</h2>
+                <p>Créez un maillot unique à votre image</p>
+            </div>
+            <div class="customization-container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="jersey-preview">
+                            <img src="assets/images/boutique/maillot-preview.png" alt="Aperçu du maillot" id="jerseyPreview">
+                            <div class="jersey-name" id="previewName">VOTRE NOM</div>
+                            <div class="jersey-number" id="previewNumber">10</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="customization-form">
+                            <h3>Options de personnalisation</h3>
+                            <form id="customizationForm">
+                                <div class="form-group">
+                                    <label for="jerseyType">Type de maillot</label>
+                                    <select class="form-control" id="jerseyType">
+                                        <option value="cotonfc-home">Coton FC - Domicile</option>
+                                        <option value="cotonfc-away">Coton FC - Extérieur</option>
+                                        <option value="cotonfc-third">Coton FC - Third</option>
+                                        <option value="elancoton-home">Elan Coton BC - Domicile</option>
+                                        <option value="elancoton-away">Elan Coton BC - Extérieur</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="jerseySize">Taille</label>
+                                    <select class="form-control" id="jerseySize">
+                                        <option value="S">S</option>
+                                        <option value="M">M</option>
+                                        <option value="L" selected>L</option>
+                                        <option value="XL">XL</option>
+                                        <option value="XXL">XXL</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="jerseyName">Nom</label>
+                                    <input type="text" class="form-control" id="jerseyName" placeholder="Votre nom" maxlength="12" oninput="updatePreview()">
+                                </div>
+                                <div class="form-group">
+                                    <label for="jerseyNumber">Numéro</label>
+                                    <input type="number" class="form-control" id="jerseyNumber" min="1" max="99" value="10" oninput="updatePreview()">
+                                </div>
+                                <div class="form-group">
+                                    <label for="jerseyBadge">Badge (optionnel)</label>
+                                    <select class="form-control" id="jerseyBadge">
+                                        <option value="none">Aucun</option>
+                                        <option value="champion">Champion Bénin 2024</option>
+                                        <option value="respect">Respect</option>
+                                    </select>
+                                </div>
+                                <div class="price-container">
+                                    <span class="price-label">Prix:</span>
+                                    <span class="price-value">25 000 FCFA</span>
+                                </div>
+                                <button type="button" class="btn btn-primary btn-block" onclick="addCustomJerseyToCart()">AJOUTER AU PANIER</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Produits Populaires -->
+    <section class="shop-popular">
+        <div class="container">
+            <div class="section-header">
+                <h2>PRODUITS POPULAIRES</h2>
+                <div class="tabs">
+                    <button class="tab active" onclick="filterPopular('all')">TOUS</button>
+                    <button class="tab" onclick="filterPopular('training')">TRAINING</button>
+                    <button class="tab" onclick="filterPopular('accessoires')">ACCESSOIRES</button>
+                </div>
+            </div>
+            <div class="row product-grid" id="popularProductsGrid">
+                <!-- Les produits populaires seront chargés dynamiquement ici -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Panier (Offcanvas) -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="cartOffcanvasLabel">Votre Panier</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div id="cartItems">
+                <!-- Les articles du panier seront affichés ici -->
+                <div class="empty-cart-message">Votre panier est vide</div>
+            </div>
+            <div class="cart-summary">
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span id="cartTotal">0 FCFA</span>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="proceedToCheckout()">COMMANDER</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="footer-brand">
+                        <img src="assets/images/logo.png" alt="Coton Sport Logo" class="footer-logo">
+                        <h3>COTON SPORT</h3>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h4>LIENS RAPIDES</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="#">Actualités</a></li>
+                        <li><a href="#">Matchs</a></li>
+                        <li><a href="boutique.html">Boutique</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h4>ÉQUIPES</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Coton FC</a></li>
+                        <li><a href="#">Elan Coton BC</a></li>
+                        <li><a href="#">Académie</a></li>
+                        <li><a href="#">Féminines</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h4>CONTACT</h4>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-map-marker-alt"></i> Stade Charles de Gaulle, Porto-Novo, Bénin</li>
+                        <li><i class="fas fa-phone"></i> +229 97 97 97 97</li>
+                        <li><i class="fas fa-envelope"></i> contact@cotonsport.bj</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Coton Sport Bénin. Tous droits réservés.</p>
+                <div class="footer-legal">
+                    <a href="#">Mentions légales</a>
+                    <a href="#">Politique de confidentialité</a>
+                    <a href="#">CGV</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts JS -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.27/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/boutique.js"></script>
+</body>
+</html>
